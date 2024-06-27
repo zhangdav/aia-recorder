@@ -1,0 +1,27 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: AIARecorder
+    network: mantle
+    source:
+      address: "0xB28892260BfBcBB9C67669F1a209de8DB19980A5"
+      abi: AIARecorder
+      startBlock: 65628726
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - InteractionRecorded
+        - OwnershipTransferred
+      abis:
+        - name: AIARecorder
+          file: ./abis/AIARecorder.json
+      eventHandlers:
+        - event: InteractionRecorded(indexed address,indexed address,uint256)
+          handler: handleInteractionRecorded
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+      file: ./src/aia-recorder.ts
